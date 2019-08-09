@@ -1,0 +1,13 @@
+		<div class="menu-box">
+			<ul>
+				<% if user_signed_in? %>
+					<li><a href="#">Log out</a></li>
+					<li><a href="#">My page</a></li>
+					<li><a href="#">Cart</a> </li>
+				<% else %>
+					<li><%= link_to "Sign up",new_user_registration_path %></li>
+					<li><%= link_to "Log in", new_user_session_path %></li>
+					<li><a href="#">Abebe</a> </li>
+				<% end %>
+			</ul>
+		</div>

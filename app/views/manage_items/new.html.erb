@@ -1,0 +1,114 @@
+<div class="container">
+<div class="row">
+<div class="col-sm-3">
+<%= render partial: "admins/sidebar" %>
+<!-- side -->
+<div class="cate">
+  <%= form_for(@category) do |f| %>
+    <label>ジャンル</label><br>
+    <%= f.text_field :name, :style=>"width:75%" %><%= f.submit "追加", :style=>"width:25%" %>
+  <% end %>
+  <br>
+    <%= form_for(@artist) do |f| %>
+    <label>アーティスト</label><br>
+    <%= f.text_field :name, :style=>"width:75%" %><%= f.submit "追加", :style=>"width:25%" %>
+  <% end %>
+  <br>
+    <%= form_for(@label) do |f| %>
+    <label>レーベル</label><br>
+    <%= f.text_field :name, :style=>"width:75%" %><%= f.submit "追加", :style=>"width:25%" %>
+  <% end %>
+</div>
+<!-- side -->
+</div>
+<div class="col-sm-9"><div class="wrap">
+<h2>商品登録</h2>
+<div class="row flex">
+  <div class="col-sm-1"></div><div class="col-sm-1 grey">
+  </div>
+  <div class="col-sm-9">
+<%= form_for(@item, url: {controller: 'manage_items', action:'create'}) do |item| %>
+  <div class="field">
+      <div class="col-xs-4">
+    <label>商品名</label>
+      </div>
+      <%= item.text_field :album, :style=>"width:90px;" %>
+  </div>
+
+  <div class="field">
+      <div class="col-xs-4">
+    <label>ジャケット画像</label>
+      </div>
+      <%= item.attachment_field :image %>
+  </div>
+
+  <div class="field">
+      <div class="col-xs-4">
+    <label>税抜価格</label>
+      </div>
+     <%= item.text_field :price, :style=>"width:90px;" %>円<br>（ハイフンを除く）
+  </div>
+
+  <div class="field">
+      <div class="col-xs-4">
+    <label>在庫数</label>
+  </div>
+    <%= item.text_field :stock, :style=>"width:30px;" %>枚
+  </div>
+
+
+<%= item.fields_for :discs do |disc| %>
+<%= disc.fields_for :songs do |song| %>
+  <div class="field-st flex">
+      <div class="col-xs-4">
+    <label>収録内容</label>
+  </div>
+  <div class="col-xs-8 box-line">
+    <div class="col-xs-6">
+     <p class="under-line">曲名</p>
+       <%= song.text_field :name, :style=>"width:100px;" %><br>
+    </div>
+   <div class="col-xs-6">
+    <p class="under-line">アーティスト</p>
+    <%= song.collection_select(:artist_id, @artists, :id, :name) %><br>
+    </div>
+  </div>
+</div>
+<% end %>
+<% end %>
+
+  <div class="field">
+      <div class="col-xs-4">
+    <label>レーベル</label>
+  </div>
+    <%= item.collection_select(:label_id, @labels, :id, :name) %>
+  </div>
+
+  <div class="field">
+      <div class="col-xs-4">
+    <label>ジャンル</label>
+  </div>
+    <%= item.collection_select(:category_id, @categories, :id, :name) %>
+  </div>
+
+
+  <div class="field">
+    <div class="col-xs-4">
+    <label>ステータス</label>
+  </div>
+    <%= item.select :sales_status, [["販売中",1], ["販売停止中",2]], :prompt => "選択してください" %>
+  </div>
+
+  <div class="actions">
+    <%= item.submit "登録" %>
+  </div>
+<% end %>
+
+</div><!-- col-sm-4 -->
+<div class="col-sm-1"></div>
+</div><!-- row*************** -->
+
+</div><!-- wrap -->
+</div><!-- col-sm- -->
+</div><!-- row -->
+</div><!-- container -->
